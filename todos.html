@@ -5,6 +5,9 @@
   <title>Title</title>
     <link rel="stylesheet" href="./css/bootstrap.css">
     <script src="./js/vue.js"></script>
+    <style>
+        .complete{ color: green; text-decoration: line-through; }
+    </style>
 </head>
 <body>
 
@@ -16,11 +19,16 @@
                     Vue2.0 lessons
                 </div>
                 <div class="panel-body">
-                    <h1>Vue2.0</h1>
+                    <h1>Vue2.0-- My Todos ({{ todoCount }})</h1>
                     <ul class="list-group">
-                        <li class="list-group-item" v-for="(todo, index) in todos">
+                        <li class="list-group-item" v-for="(todo, index) in todos" v-bind:class="{'complete':todo.complete}">
                             {{ todo.title }}
-                            <button class="btn btn-danger btn-xs pull-right" @click="deleteTodo(index)">remove</button>
+                            <div class="pull-right">
+                                <button class="btn btn-xs" @click="completeTodo(todo)" v-bind:class="[todo.complete ? 'btn-warning' : 'btn-success']">
+                                    {{ todo.complete ? 'cancel' : 'complete' }}
+                                </button>
+                                <button class="btn btn-danger btn-xs" @click="deleteTodo(index)">remove</button>
+                            </div>
                         </li>
                     </ul>
                     <form @submit.prevent="addTodo(newTodo)">
@@ -42,17 +50,27 @@
         el:'.container',
         data:{
             todos:[
-                {id:null, title:'It is cool'}
+                {id:null, title:'It is cool', complete:true},
+                {id:null, title:'It is cool', complete:false},
+                {id:null, title:'It is cool', complete:true}
             ],
-            newTodo:{id:null, title:''}
+            newTodo:{id:null, title:'', complete:false}
+        },
+        computed:{
+            todoCount:function () {
+                return this.todos.length;
+            }
         },
         methods:{
             addTodo:function(newTodo){
                 this.todos.push(newTodo);
-                this.newTodo = {id:null, title:''};
+                this.newTodo = {id:null, title:'', complete:false};
             },
             deleteTodo:function (index) {
                 this.todos.splice(index, 1);
+            },
+            completeTodo:function (todo) {
+                todo.complete = !todo.complete;
             }
         }
     });
