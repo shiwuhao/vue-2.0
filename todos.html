@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Vue2.0 lessons
+                </div>
+                <div class="panel-body">
+                    <h1>Vue2.0</h1>
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="(todo, index) in todos">
+                            {{ todo.title }}
+                            <button class="btn btn-danger btn-xs pull-right" @click="deleteTodo(index)">remove</button>
+                        </li>
+                    </ul>
+                    <form @submit.prevent="addTodo(newTodo)">
+                        <div class="form-group">
+                            <input v-model="newTodo.title" type="text" class="form-control" placeholder="Add a new todo">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-success btn-sm">submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el:'.container',
+        data:{
+            todos:[
+                {id:null, title:'It is cool'}
+            ],
+            newTodo:{id:null, title:''}
+        },
+        methods:{
+            addTodo:function(newTodo){
+                this.todos.push(newTodo);
+                this.newTodo = {id:null, title:''};
+            },
+            deleteTodo:function (index) {
+                this.todos.splice(index, 1);
+            }
+        }
+    });
+</script>
+</body>
+</html>
