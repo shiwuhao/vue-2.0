@@ -69,7 +69,7 @@
     Vue.component('todo-form', {
         template:'#todo-form',
         props:['todos'],
-        data:function () {
+        data() {
             return {
                 newTodo:{id:null, title:'', completed:false}
             };
